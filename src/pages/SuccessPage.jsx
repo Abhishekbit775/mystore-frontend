@@ -14,7 +14,7 @@ export default function SuccessPage() {
 
     // Save the order to the database
     if (sessionId) {
-      fetch('http://localhost:4242/save-order', {
+      fetch(`${import.meta.env.VITE_API_URL}/save-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId }),
