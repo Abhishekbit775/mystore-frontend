@@ -52,13 +52,14 @@
 
 ## 📸 Screenshots
 
-> Add your own screenshots here — the home page, product detail, cart, and Stripe checkout page work great. (Drop images into a `/screenshots` folder and reference like below.)
-
-```
+### Home page — hero banner & product catalog
 ![Home page](./screenshots/home.png)
+
+### Product detail — image gallery, reviews & ratings
 ![Product detail](./screenshots/product.png)
-![Cart and checkout](./screenshots/cart.png)
-```
+
+### Payment successful — Stripe checkout completed
+![Payment success](./screenshots/success.png)
 
 ---
 
