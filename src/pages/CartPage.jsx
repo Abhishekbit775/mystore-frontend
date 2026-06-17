@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const { token } = useAuth();
   const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +15,10 @@ export default function CartPage() {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/create-checkout-session`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({ items: cart }),
       });
 
@@ -55,7 +60,7 @@ export default function CartPage() {
         <div className="lg:col-span-2 space-y-4">
           {cart.map(item => (
             <div key={item.id} className="bg-white rounded-lg shadow-sm p-4 flex gap-4">
-              <img src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded" />
+              <img src={item.images[0]} alt={item.name} className="w-24 h-24 object-cover rounded" />
               <div className="flex-1">
                 <h3 className="font-medium text-gray-900">{item.name}</h3>
                 <p className="text-gray-600">${item.price.toFixed(2)}</p>
@@ -72,7 +77,7 @@ export default function CartPage() {
                   <button
                     onClick={() => {
                       removeFromCart(item.id);
-                      showToast(`${item.name} removed`, 'success');
+                      showToast(`${item.name} removed`);
                     }}
                     className="ml-auto text-red-600 hover:text-red-800 text-sm"
                   >Remove</button>
